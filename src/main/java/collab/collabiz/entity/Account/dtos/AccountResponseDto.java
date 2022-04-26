@@ -1,11 +1,8 @@
-package com.example.collabiz_account.dtos;
+package com.example.account_final.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Lob;
-import javax.validation.constraints.Email;
 
 @Data
 @NoArgsConstructor
@@ -13,7 +10,6 @@ import javax.validation.constraints.Email;
 public class AccountResponseDto {
     private Long id;
 
-    @Email
     private String email;
     private boolean emailVerified;
 }
