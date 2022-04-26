@@ -1,45 +1,40 @@
-package com.example.collabiz_account;
+package com.example.account_final;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.UUID;
 
 @Entity
 @Data
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class EEmail {
+public class Account {
     @Id
     @GeneratedValue
-    @Column(name = "email_id")
+    @Column(name = "account_id")
     private Long id;
 
-    public EEmail(String email) {
-        this.email = email;
-    }
-
-    @Email
-    @Column(unique = true,nullable = false)
-    private String email;
-
-    @OneToOne(mappedBy = "email", fetch = FetchType.LAZY)
-    private Account account;
+    //@Email //이게 id
+    private String email; //어노테이션이랑 겹쳐서 EEmail로 함
 
     @JsonIgnore
     @Column(nullable = false)
     private String password;
+
+    private String companyName; //유저 회사 이름
+
+    private String companyNumber; //사업자 등록번호
 
     private boolean emailVerified;
 
     @JsonIgnore
     private String emailCheckToken;
 
-    //private LocalDateTime emailCheckTokenGeneratedAt;
 
     public void generateEmailCheckToken() {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -54,6 +49,6 @@ public class EEmail {
 
     public void completeSignUp() {
         this.setEmailVerified(true);
-    }
 
+    }
 }

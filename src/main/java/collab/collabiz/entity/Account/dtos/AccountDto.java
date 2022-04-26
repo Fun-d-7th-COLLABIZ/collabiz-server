@@ -1,4 +1,4 @@
-package com.example.collabiz_account.dtos;
+package com.example.account_final;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,16 +13,6 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDto {
-    @NotBlank
-    @Length(min = 3,max = 20)
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
-    private String username;
-
-    @NotBlank
-    @Length(min = 3,max = 20)
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
-    private String nickname;
-
     @Email
     @NotBlank
     private String email;
@@ -30,4 +20,15 @@ public class AccountDto {
     @NotBlank
     @Length(min = 8,max = 40)
     private String password;
+
+    @NotBlank
+    @Length(min = 3,max = 20)
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
+    private String companyName;
+
+    @NotBlank
+    @Length(min = 3,max = 20)
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
+    private String companyNumber;
+
 }
