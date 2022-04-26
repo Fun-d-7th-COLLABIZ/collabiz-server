@@ -1,4 +1,4 @@
-package com.example.collabiz_account;
+package com.example.account_final;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
