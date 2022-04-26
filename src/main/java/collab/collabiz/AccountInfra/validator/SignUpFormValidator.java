@@ -1,7 +1,7 @@
-package com.example.collabiz_account.validator;
+package com.example.account_final.validator;
 
-import com.example.collabiz_account.AccountRepository;
-import com.example.collabiz_account.dtos.AccountDto;
+import com.example.account_final.AccountDto;
+import com.example.account_final.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
