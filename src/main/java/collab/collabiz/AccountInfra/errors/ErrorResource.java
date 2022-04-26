@@ -1,4 +1,4 @@
-package com.example.collabiz_account.errors;
+package com.example.account_final.errors;
 
 import com.example.collabiz_account.IndexController;
 import org.springframework.hateoas.EntityModel;

@@ -1,4 +1,4 @@
-package com.example.collabiz_account.errors;
+package com.example.account_final.errors;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
