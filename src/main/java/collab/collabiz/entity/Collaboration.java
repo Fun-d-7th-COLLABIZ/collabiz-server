@@ -32,4 +32,6 @@ public class Collaboration extends BaseEntity {
     private CollaborationCurrentStatus currentStatus; // 콜라보 현재 상황
 
     private LocalDateTime endDate;
+
+    private int views;
 }
