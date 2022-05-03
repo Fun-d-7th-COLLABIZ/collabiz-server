@@ -1,7 +1,7 @@
-package com.example.account_final.validator;
+package collab.collabiz.AccountInfra.validator;
 
-import com.example.account_final.AccountDto;
-import com.example.account_final.AccountRepository;
+import collab.collabiz.entity.Account.dtos.AccountDto;
+import collab.collabiz.repository.Account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -23,9 +23,6 @@ public class SignUpFormValidator implements Validator {
         AccountDto form = (AccountDto) object;
         if (accountRepository.existsByEmail(form.getEmail())) {
             errors.rejectValue("email","invalid email",new Object[]{form.getEmail()},"이미 사용중인 이메일입니다.");
-        }
-        if (accountRepository.existsByNickname(form.getNickname())) {
-            errors.rejectValue("nickname","invalid nickname",new Object[]{form.getNickname()},"이미 사용중인 닉네임입니다.");
         }
     }
 }

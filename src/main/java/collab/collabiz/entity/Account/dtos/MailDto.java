@@ -1,4 +1,4 @@
-package com.example.account_final;
+package collab.collabiz.entity.Account.dtos;
 
 import lombok.*;
 
@@ -9,6 +9,6 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class MailDto {
     private String address;
-    private String title;
-    private String message;
+    //private String title;
+    //private String message;
 }

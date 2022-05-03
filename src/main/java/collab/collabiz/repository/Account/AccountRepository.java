@@ -1,5 +1,6 @@
-package com.example.account_final;
+package collab.collabiz.repository.Account;
 
+import collab.collabiz.entity.Account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +14,6 @@ public interface AccountRepository extends JpaRepository<Account,Long> {
     //boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
-
-    boolean existsByNickname(String nickname);
 
     //Account findByNickname(String nickname);
 }

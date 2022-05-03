@@ -1,5 +1,6 @@
-package com.example.account_final;
+package collab.collabiz.controller.Account;
 
+import collab.collabiz.entity.Account.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 

@@ -1,4 +1,4 @@
-package com.example.account_final;
+package collab.collabiz.controller.Account;
 
 //import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
