@@ -1,12 +1,16 @@
 package collab.collabiz.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
@@ -37,6 +41,18 @@ public class Post extends BaseEntity {
     private LocalDateTime recruitEndDate; // 모집 마감일
     private String region;
     private String regionDetail; // 장소 상세 설명
+
+    @Builder // 해당 클래스의 빌더패턴 클래스 생성 -> 생성자 상단에 선언시 생성자에 포함된 필드만 빌더에 포함 -> 빌더를 이용해 데이터 삽입
+    public Post(Member member,String title, String possibleOffer, String content,LocalDateTime recruitStartDate,LocalDateTime recruitEndDate,String region,String regionDetail,List<String> keyword){
+        this.member=member;
+        this.title=title;
+        this.possibleOffer=possibleOffer;
+        this.content=content;
+        this.recruitStartDate=recruitStartDate;
+        this.recruitEndDate=recruitEndDate;
+        this.region=region;
+        this.regionDetail=regionDetail;
+    }
 
     /**
      * by.seongcheol

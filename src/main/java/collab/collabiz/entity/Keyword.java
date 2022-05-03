@@ -1,10 +1,13 @@
 package collab.collabiz.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.time.LocalDateTime;
 
 import static javax.persistence.FetchType.*;
 import static lombok.AccessLevel.*;
@@ -25,7 +28,17 @@ public class Keyword {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name="post_Id")
     private Post post;
 
     private String keyword;
+
+    @Builder
+    public Keyword(Post post,String keyword) {
+        this.post=post;
+        this.keyword=keyword;
+    }
+
+
+
 }
