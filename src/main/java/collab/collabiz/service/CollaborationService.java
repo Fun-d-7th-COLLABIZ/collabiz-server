@@ -50,7 +50,7 @@ public class CollaborationService {
             for (Keyword keyword : keywords) {
                 keywordDto.add(keyword.getKeyword());
             }
-            ranking.setKeyword(keywordDto);
+            ranking.setKeywords(keywordDto);
 
             // rankings에  ranking dto 추가
             rankings.add(ranking);
