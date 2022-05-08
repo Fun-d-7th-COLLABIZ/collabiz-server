@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,11 +24,31 @@ public class LoginService {
 
     private final MemberRepository memberRepository;
 
+    /**
+     * 어드민 계정 미리 생성
+     */
+    @PostConstruct
+    public void initAdmin() {
+        memberRepository.save(Member.builder()
+                .email("admin@test.com")
+                .password("1234")
+                .companyName("admin")
+                .level("0")
+                .report(0)
+                .isAdmin(true)
+                .build());
+    }
+
     /* 로그인 */
     public LoginRes login(LoginReq loginReq, HttpServletRequest request) {
+        log.info("LoginService - login start");
+        log.info("LoginService - 로그인 시도 이메일 = {}", loginReq.getEmail());
+        log.info("LoginService - 로그인 시도 비밀번호 = {}", loginReq.getPassword());
 
         Member findMember = memberRepository.findByEmail(loginReq.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
+
+        log.info("LoginService - 조회된 회원 이메일 = {}", findMember.getEmail());
 
         // 이메일 패스워드 검증
         if (loginReq.getPassword().equals(findMember.getPassword())) {
@@ -38,6 +59,7 @@ public class LoginService {
             log.info("세션 등록 성공 = {}", loginSession.getEmail());
             return new LoginRes(findMember);
         } else {
+            log.info("아이디 비밀번호 불일치");
             throw new IllegalArgumentException("아이디 비밀번호가 일치하지 않습니다.");
         }
     }

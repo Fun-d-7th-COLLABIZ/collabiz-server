@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -31,7 +32,6 @@ public class LoginController {
             throw new IllegalArgumentException("아이디 비밀번호를 입력해주세요");
         }
 
-        log.info("LoginController - end");
         return loginService.login(loginReq, request);
     }
 
