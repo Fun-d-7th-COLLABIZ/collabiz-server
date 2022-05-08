@@ -18,5 +18,5 @@ public class Ranking {
     private String title;
     private String content;
     private LocalDateTime endDate;
-    private List<String> keyword;
+    private List<String> keywords;
 }
