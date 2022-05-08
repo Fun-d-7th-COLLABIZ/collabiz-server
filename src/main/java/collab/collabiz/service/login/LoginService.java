@@ -25,21 +25,8 @@ public class LoginService {
     private final MemberRepository memberRepository;
 
     /**
-     * 어드민 계정 미리 생성
+     *  로그인
      */
-    @PostConstruct
-    public void initAdmin() {
-        memberRepository.save(Member.builder()
-                .email("admin@test.com")
-                .password("1234")
-                .companyName("admin")
-                .level("0")
-                .report(0)
-                .isAdmin(true)
-                .build());
-    }
-
-    /* 로그인 */
     public LoginRes login(LoginReq loginReq, HttpServletRequest request) {
         log.info("LoginService - login start");
         log.info("LoginService - 로그인 시도 이메일 = {}", loginReq.getEmail());
@@ -64,7 +51,9 @@ public class LoginService {
         }
     }
 
-    /* 로그아웃 */
+    /**
+     * 로그아웃
+     */
     public LogoutRes logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
