@@ -1,9 +1,16 @@
 package collab.collabiz.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static lombok.AccessLevel.*;
 
@@ -12,6 +19,8 @@ import static lombok.AccessLevel.*;
  */
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseEntity {
 
