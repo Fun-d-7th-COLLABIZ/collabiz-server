@@ -77,6 +77,8 @@ public class MailController {
         }
         Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
         EntityModel<Account> accountResource = AccountResource.modelOf(account);
+        
+        //model에 담아서 전송
         return ResponseEntity.ok(accountResource);
     }
 }

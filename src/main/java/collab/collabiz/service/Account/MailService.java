@@ -1,8 +1,9 @@
 package collab.collabiz.service.Account;
 
 import collab.collabiz.entity.Account.Account;
+import collab.collabiz.entity.Account.dtos.AccountDto;
+import collab.collabiz.entity.Account.dtos.AccountResponseDto;
 import collab.collabiz.repository.Account.AccountRepository;
-import com.example.account_final.dtos.AccountResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -51,11 +52,16 @@ public class MailService {
      * 이메일 토큰 검증 로직
      */
     public AccountResponseDto emailVerification(Account account, String token){
-        if (!account.isValidToken(token)) {
-            return null;
+        if (!account.isValidToken(token)) {//토큰이 맞는지 검증
+            return null; 
         }
 
+        //토큰 검증이 끝났다면 -> completeSignUp으로 해당 객체의 setEmailVerified을 true로
         completeSignUp(account);
+        //토큰 검증 끝난 회원을 repository에 저장
+        accountRepository.save(account);
+        
+        //소영님과 상의 후 responseDto는 안만들어도 될 듯
         return createAccountResponseDto(account);
     }
     public void completeSignUp(Account find) {
@@ -73,11 +79,24 @@ public class MailService {
      * 회원가입 정보 저장
      */
     // save account
-//    public Account saveNewAccount(AccountDto accountDto) {
-//        Account map = modelMapper.map(accountDto, Account.class);
-//        //map.setPassword(passwordEncoder.encode(map.getPassword()));
-//        //map.generateEmailCheckToken(); 이메일 토큰 처리는 분리해 주었으니 이제 없어도 된다.
-//        Account saved = accountRepository.save(map);
-//        return saved;
-//    }
+    public Account saveNewAccount(AccountDto accountDto) {
+
+        //이메일 검증 할 때 만들어 둔 회원을 찾고 나머지 정보 채워주기
+        Account account = accountRepository.findByEmail(accountDto.getEmail());
+
+
+        //account.setEmail(accountDto.getEmail());
+        account.setPassword(accountDto.getPassword());
+        account.setCompanyName(accountDto.getCompanyName());
+        account.setCompanyNumber(accountDto.getCompanyNumber());
+
+
+
+        //map.setPassword(passwordEncoder.encode(map.getPassword()));
+        //map.generateEmailCheckToken(); 이메일 토큰 처리는 분리해 주었으니 이제 없어도 된다.
+        //Account saved = accountRepository.save(map);
+        
+        //저장된 객체 반환
+        return account;
+    }
 }
