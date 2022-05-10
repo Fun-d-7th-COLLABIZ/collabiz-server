@@ -10,8 +10,10 @@ import collab.collabiz.entity.Account.dtos.TokenDto;
 import collab.collabiz.repository.Account.AccountRepository;
 import collab.collabiz.service.Account.MailService;
 import lombok.AllArgsConstructor;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
@@ -21,7 +23,7 @@ import javax.validation.Valid;
 public class MailController {
     private final MailService mailService;
     private AccountRepository accountRepository;
-
+    private final SignUpFormValidator validator;
     /**
      * 이메일 인증번호 전송 로직
      */
@@ -60,23 +62,24 @@ public class MailController {
 
     /**
      * 최종 회원가입
+     * 0511 수정 필요;
      */
 
-//    @PostMapping("/signUp") //이메일 인증 완료 후 회원가입 완료 버튼
-//    public ResponseEntity signUp(@RequestBody AccountDto accountDto, Errors errors) {
-//        if (errors.hasErrors()) {
-//            EntityModel<Errors> jsr303error = ErrorResource.modelOf(errors);
-//            return ResponseEntity.badRequest().body(jsr303error);
-//        }
-//        validator.validate(accountDto, errors);
-//        if (errors.hasErrors()) {
-//            EntityModel<Errors> customError = ErrorResource.modelOf(errors);
-//            return ResponseEntity.badRequest().body(customError);
-//        }
-//        Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
-//        EntityModel<Account> accountResource = AccountResource.modelOf(account);
-//
-//        //model에 담아서 전송
-//        return ResponseEntity.ok(accountResource);
-//    }
+    @PostMapping("/signUp") //이메일 인증 완료 후 회원가입 완료 버튼
+    public ResponseEntity signUp(@RequestBody AccountDto accountDto, Errors errors) {
+        if (errors.hasErrors()) {
+            EntityModel<Errors> jsr303error = ErrorResource.modelOf(errors);
+            return ResponseEntity.badRequest().body(jsr303error);
+        }
+        validator.validate(accountDto, errors);
+        if (errors.hasErrors()) {
+            EntityModel<Errors> customError = ErrorResource.modelOf(errors);
+            return ResponseEntity.badRequest().body(customError);
+        }
+        //Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
+        EntityModel<Account> accountResource = AccountResource.modelOf(account);
+
+        //model에 담아서 전송
+        return ResponseEntity.ok(accountResource);
+    }
 }
