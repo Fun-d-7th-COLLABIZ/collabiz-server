@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+
 @Controller
 @AllArgsConstructor
 public class MailController {
@@ -32,7 +34,7 @@ public class MailController {
      * 이메일 인증번호 전송 로직
      */
     @PostMapping("/mail")
-    public void execMail(@RequestBody MailDto mailDto) {
+    public void execMail(@RequestBody @Valid MailDto mailDto) {
         //1.이미 있는 이메일인가 확인 if문 통과 하면 중복 없는 것
         //if (MailService.checkEmailDuplicate(mailDto.getAddress())) {
             //return ResponseEntity.badRequest().build(); //@@중복 Response로 바꿔주기-프론트랑 논의
@@ -46,8 +48,8 @@ public class MailController {
     /**
      * 이메일 토큰 검증 로직
      */
-    @PostMapping("/emailVerification")
-    public ResponseEntity emailVerification(@CurrentUser Account account, @RequestParam String token){
+    @GetMapping("/emailVerification")
+    public ResponseEntity emailVerification(@CurrentUser @Valid Account account, @RequestParam String token){
 
         //현재 인증 받고 있는 유저를 저장 하여 들고다닌다. @CurrentUser를 사용해서 가지고 온다.
         AccountResponseDto dto = mailService.emailVerification(account, token);

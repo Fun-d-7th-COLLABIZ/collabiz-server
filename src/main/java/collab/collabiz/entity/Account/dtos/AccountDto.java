@@ -13,22 +13,22 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDto {
-    @Email
-    @NotBlank
+    @Email(message = "\"이메일 형식에 맞지 않습니다.\"")
+    @NotBlank(message = "이메일은 필수 입력 값입니다.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "패스워드 값은 필수 입력 값입니다.")
     @Length(min = 8,max = 40)
     private String password;
 
-    @NotBlank
-    @Length(min = 3,max = 20)
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
+    //@NotBlank
+    //@Length(min = 3,max = 20)
+    //@Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
     private String companyName;
 
-    @NotBlank
-    @Length(min = 3,max = 20)
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
+    //@NotBlank
+    //@Length(min = 3,max = 20)
+    //@Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
     private String companyNumber;
 
 }
