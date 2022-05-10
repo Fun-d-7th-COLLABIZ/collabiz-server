@@ -3,30 +3,25 @@ package collab.collabiz.entity.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.UUID;
 
 @Entity
 @Data
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class Account {
     @Id
     @GeneratedValue
     @Column(name = "account_id")
     private Long id;
 
-    //@Email //이게 id
-    private String email; //어노테이션이랑 겹쳐서 EEmail로 함
+    @Email
+    private String email;
 
     @JsonIgnore
-    @Column(nullable = false)
     private String password;
 
     private String companyName; //유저 회사 이름
