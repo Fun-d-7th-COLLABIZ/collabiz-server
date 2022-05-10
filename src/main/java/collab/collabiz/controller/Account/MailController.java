@@ -65,21 +65,21 @@ public class MailController {
      * 0511 수정 필요;
      */
 
-    @PostMapping("/signUp") //이메일 인증 완료 후 회원가입 완료 버튼
-    public ResponseEntity signUp(@RequestBody AccountDto accountDto, Errors errors) {
-        if (errors.hasErrors()) {
-            EntityModel<Errors> jsr303error = ErrorResource.modelOf(errors);
-            return ResponseEntity.badRequest().body(jsr303error);
-        }
-        validator.validate(accountDto, errors);
-        if (errors.hasErrors()) {
-            EntityModel<Errors> customError = ErrorResource.modelOf(errors);
-            return ResponseEntity.badRequest().body(customError);
-        }
-        //Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
-        EntityModel<Account> accountResource = AccountResource.modelOf(account);
-
-        //model에 담아서 전송
-        return ResponseEntity.ok(accountResource);
-    }
+//    @PostMapping("/signUp") //이메일 인증 완료 후 회원가입 완료 버튼
+//    public ResponseEntity signUp(@RequestBody AccountDto accountDto, Errors errors) {
+//        if (errors.hasErrors()) {
+//            EntityModel<Errors> jsr303error = ErrorResource.modelOf(errors);
+//            return ResponseEntity.badRequest().body(jsr303error);
+//        }
+//        validator.validate(accountDto, errors);
+//        if (errors.hasErrors()) {
+//            EntityModel<Errors> customError = ErrorResource.modelOf(errors);
+//            return ResponseEntity.badRequest().body(customError);
+//        }
+//        //Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
+//        EntityModel<Account> accountResource = AccountResource.modelOf(account);
+//
+//        //model에 담아서 전송
+//        return ResponseEntity.ok(accountResource);
+//    }
 }
