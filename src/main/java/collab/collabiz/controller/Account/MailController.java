@@ -76,7 +76,7 @@ public class MailController {
 
     /**
      * 최종 회원가입
-     * 0511 수정 필요;
+     * 0511 수정 완료;
      */
 
     @PostMapping("/signUp") //이메일 인증 완료 후 회원가입 완료 버튼
