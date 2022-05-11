@@ -109,6 +109,7 @@ public class MailService {
         account.setPassword(accountDto.getPassword());
         account.setCompanyName(accountDto.getCompanyName());
         account.setCompanyNumber(accountDto.getCompanyNumber());
+        accountRepository.save(account);
 
         //map.setPassword(passwordEncoder.encode(map.getPassword()));
         //map.generateEmailCheckToken(); 이메일 토큰 처리는 분리해 주었으니 이제 없어도 된다.
