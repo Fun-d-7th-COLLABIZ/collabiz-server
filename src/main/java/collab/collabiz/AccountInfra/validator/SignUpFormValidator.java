@@ -1,6 +1,7 @@
 package collab.collabiz.AccountInfra.validator;
 
 import collab.collabiz.entity.Account.dtos.AccountDto;
+import collab.collabiz.entity.Account.dtos.MailDto;
 import collab.collabiz.repository.Account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -20,9 +21,9 @@ public class SignUpFormValidator implements Validator {
 
     @Override
     public void validate(Object object, Errors errors) {
-        AccountDto form = (AccountDto) object;
-        if (accountRepository.existsByEmail(form.getEmail())) {
-            errors.rejectValue("email","invalid email",new Object[]{form.getEmail()},"이미 사용중인 이메일입니다.");
+        MailDto form = (MailDto) object;
+        if (accountRepository.existsByEmail(form.getAddress())) {
+            errors.rejectValue("email","invalid email",new Object[]{form.getAddress()},"이미 사용중인 이메일입니다.");
         }
     }
 }

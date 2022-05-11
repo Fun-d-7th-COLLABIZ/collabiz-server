@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 @Entity
@@ -18,14 +19,17 @@ public class Account {
     @Column(name = "account_id")
     private Long id;
 
-    @Email
+    @Email(message = "이메일 형식에 맞지 않습니다.")
+    @NotBlank(message = "이메일은 필수 입력 값입니다.")
     private String email;
 
     @JsonIgnore
     private String password;
 
+    @NotBlank(message = "회사명은 필수 입력 값입니다.")
     private String companyName; //유저 회사 이름
 
+    @NotBlank(message = "사업자 등록번호는 필수 입력 값입니다.")
     private String companyNumber; //사업자 등록번호
 
 //    public void generateEmailCheckToken() {
