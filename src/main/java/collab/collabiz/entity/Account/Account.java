@@ -28,25 +28,19 @@ public class Account {
 
     private String companyNumber; //사업자 등록번호
 
-    private boolean emailVerified;
-
-    @JsonIgnore
-    private String emailCheckToken;
-
-
-    public void generateEmailCheckToken() {
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        uuid = uuid.substring(0, 10);
-        this.emailCheckToken = uuid;
-        //this.emailCheckTokenGeneratedAt = LocalDateTime.now();
-    }
-
-    public boolean isValidToken(String token) {
-        return this.emailCheckToken.equals(token);
-    }
-
-    public void completeSignUp() {
-        this.setEmailVerified(true);
-
-    }
+//    public void generateEmailCheckToken() {
+//        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+//        uuid = uuid.substring(0, 10);
+//        this.emailCheckToken = uuid;
+//        //this.emailCheckTokenGeneratedAt = LocalDateTime.now();
+//    }
+//
+//    public boolean isValidToken(String token) {
+//        return this.emailCheckToken.equals(token);
+//    }
+//
+//    public void completeSignUp() {
+//        this.setEmailVerified(true);
+//
+//    }
 }

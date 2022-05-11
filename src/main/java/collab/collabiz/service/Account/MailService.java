@@ -84,9 +84,9 @@ public class MailService {
         //소영님과 상의 후 responseDto는 안만들어도 될 듯
         return createAccountResponseDto(session);
     }
-    public void completeSignUp(Account find) {
-        find.completeSignUp();
-    }
+//    //public void completeSignUp(Account find) {
+//        find.completeSignUp();
+//    }
 
     public AccountResponseDto createAccountResponseDto(HttpSession session){
         AccountResponseDto dto = new AccountResponseDto();
@@ -110,11 +110,9 @@ public class MailService {
         account.setCompanyName(accountDto.getCompanyName());
         account.setCompanyNumber(accountDto.getCompanyNumber());
 
-
-
         //map.setPassword(passwordEncoder.encode(map.getPassword()));
         //map.generateEmailCheckToken(); 이메일 토큰 처리는 분리해 주었으니 이제 없어도 된다.
-        accountRepository.save(account);
+        //accountRepository.save(account);
 
         //저장된 객체 반환
         return account;

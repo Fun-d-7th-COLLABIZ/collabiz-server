@@ -90,7 +90,13 @@ public class MailController {
             EntityModel<Errors> customError = ErrorResource.modelOf(errors);
             return ResponseEntity.badRequest().body(customError);
         }
-        Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
+        //Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
+        Account account = new Account();
+        account.setEmail(accountDto.getEmail());
+        account.setPassword(accountDto.getPassword());
+        account.setCompanyName(accountDto.getCompanyName());
+        account.setCompanyNumber(accountDto.getCompanyNumber());
+        accountRepository.save(account);
         EntityModel<Account> accountResource = AccountResource.modelOf(account);
 
         //model에 담아서 전송
