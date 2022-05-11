@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Getter @Setter
 @NoArgsConstructor
 public class TokenDto {
-    private String address;
+    //private String address;
 
     private String token;
 }
