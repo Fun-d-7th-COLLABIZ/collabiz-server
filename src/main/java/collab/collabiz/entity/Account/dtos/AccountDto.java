@@ -31,6 +31,6 @@ public class AccountDto {
     @NotBlank(message = "사업자 등록번호는 필수 입력 값입니다.")
     //@Length(min = 3,max = 20)
     //@Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
-    private String companyNumber;
+    private String businessRegistrationNumber;
 
 }

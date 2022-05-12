@@ -1,11 +1,10 @@
 package collab.collabiz.repository.Account;
 
-import collab.collabiz.entity.Account.Account;
+import collab.collabiz.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
 
-public interface AccountRepository extends JpaRepository<Account,Long> {
+public interface AccountRepository extends JpaRepository<Member,Long> {
 
-    Account findByEmail(String email);
+    Member findByEmail(String email);
     boolean existsByEmail(String email);
 }

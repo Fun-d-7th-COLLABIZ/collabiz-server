@@ -1,13 +1,13 @@
 package collab.collabiz.controller.Account;
 
-import collab.collabiz.entity.Account.Account;
+import collab.collabiz.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 
 @RequiredArgsConstructor
-public class AccountResource extends EntityModel<Account> {
-    public static EntityModel<Account> modelOf(Account account) {
-        EntityModel<Account> accountResource = EntityModel.of(account);
+public class AccountResource extends EntityModel<Member> {
+    public static EntityModel<Member> modelOf(Member member) {
+        EntityModel<Member> accountResource = EntityModel.of(member);
         return accountResource;
     }
 }

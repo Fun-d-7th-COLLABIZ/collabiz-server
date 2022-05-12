@@ -1,13 +1,12 @@
 package collab.collabiz.entity.Account;
 
+import collab.collabiz.entity.Member;
 import collab.collabiz.repository.Account.AccountRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -17,13 +16,13 @@ class AccountTest {
 
     @Test
     public void testAccount(){
-        Account account = new Account();
-        account.setEmail("jdahae1225@naver.com");
-        Account savedAccount = accountRepository.save(account);
+        Member member = new Member();
+        member.setEmail("jdahae1225@naver.com");
+        Member savedMember = accountRepository.save(member);
 
-        Account findAccount = accountRepository.findByEmail(savedAccount.getEmail());
+        Member findMember = accountRepository.findByEmail(savedMember.getEmail());
 
-        Assertions.assertThat((findAccount.getEmail()).equals(account.getEmail()));
+        Assertions.assertThat((findMember.getEmail()).equals(member.getEmail()));
 
 
     }

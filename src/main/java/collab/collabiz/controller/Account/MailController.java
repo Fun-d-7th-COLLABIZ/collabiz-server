@@ -1,17 +1,15 @@
 package collab.collabiz.controller.Account;
 
-import collab.collabiz.AccountInfra.errors.ErrorResource;
 import collab.collabiz.AccountInfra.errors.ErrorResult;
 import collab.collabiz.AccountInfra.errors.UserException;
 import collab.collabiz.AccountInfra.validator.SignUpFormValidator;
-import collab.collabiz.entity.Account.Account;
+import collab.collabiz.entity.Member;
 import collab.collabiz.entity.Account.dtos.AccountDto;
 import collab.collabiz.entity.Account.dtos.AccountResponseDto;
 import collab.collabiz.entity.Account.dtos.MailDto;
 import collab.collabiz.entity.Account.dtos.TokenDto;
 import collab.collabiz.repository.Account.AccountRepository;
 import collab.collabiz.service.Account.MailService;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
@@ -54,8 +52,8 @@ public class MailController {
         session.setAttribute("email", email);
 
 
-        Account account = new Account();
-        account.setEmail(mailDto.getAddress());
+        Member member = new Member();
+        member.setEmail(mailDto.getAddress());
 
         //시큐리티를 적용하여 @CurrentUser를 쓸 수 없기 때문에 우선 여기서 save한다.
         mailService.sendEmailCheckToken(session);
@@ -101,13 +99,13 @@ public class MailController {
            throw new UserException("입력값이 잘못 되었습니다.");
        }
         //Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
-        Account account = new Account();
+        Member account = new Member();
         account.setEmail(accountDto.getEmail());
         account.setPassword(accountDto.getPassword());
         account.setCompanyName(accountDto.getCompanyName());
-        account.setCompanyNumber(accountDto.getCompanyNumber());
+        account.setBusinessRegistrationNumber(accountDto.getBusinessRegistrationNumber());
         accountRepository.save(account);
-        EntityModel<Account> accountResource = AccountResource.modelOf(account);
+        EntityModel<Member> accountResource = AccountResource.modelOf(account);
 
         //model에 담아서 전송
         return ResponseEntity.ok(accountResource);

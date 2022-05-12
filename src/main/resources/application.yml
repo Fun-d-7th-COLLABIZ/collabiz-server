@@ -30,3 +30,6 @@ logging.level:
   #org.springframework.web : debug
 server:
   port: 7070
+
+file:
+  dir: C:\Users\dahae\Desktop\study\

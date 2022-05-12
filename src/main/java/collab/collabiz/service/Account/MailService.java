@@ -1,6 +1,6 @@
 package collab.collabiz.service.Account;
 
-import collab.collabiz.entity.Account.Account;
+import collab.collabiz.entity.Member;
 import collab.collabiz.entity.Account.dtos.AccountDto;
 import collab.collabiz.entity.Account.dtos.AccountResponseDto;
 import collab.collabiz.repository.Account.AccountRepository;
@@ -99,23 +99,23 @@ public class MailService {
      * 회원가입 정보 저장
      */
 //    // save account
-    public Account saveNewAccount(AccountDto accountDto) {
+    public Member saveNewAccount(AccountDto accountDto) {
 
         //이메일 검증 할 때 만들어 둔 회원을 찾고 나머지 정보 채워주기
         //accountRepository.save(account);
         //account.setEmail(accountDto.getEmail());
-        Account account = new Account();
-        account.setEmail(accountDto.getEmail());
-        account.setPassword(accountDto.getPassword());
-        account.setCompanyName(accountDto.getCompanyName());
-        account.setCompanyNumber(accountDto.getCompanyNumber());
-        accountRepository.save(account);
+        Member member = new Member();
+        member.setEmail(accountDto.getEmail());
+        member.setPassword(accountDto.getPassword());
+        member.setCompanyName(accountDto.getCompanyName());
+        member.setBusinessRegistrationNumber(accountDto.getBusinessRegistrationNumber());
+        accountRepository.save(member);
 
         //map.setPassword(passwordEncoder.encode(map.getPassword()));
         //map.generateEmailCheckToken(); 이메일 토큰 처리는 분리해 주었으니 이제 없어도 된다.
         //accountRepository.save(account);
 
         //저장된 객체 반환
-        return account;
+        return member;
     }
 }
