@@ -1,4 +1,4 @@
-package collab.collabiz.AccountInfra.errors;
+package collab.collabiz.accountInfra.errors;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

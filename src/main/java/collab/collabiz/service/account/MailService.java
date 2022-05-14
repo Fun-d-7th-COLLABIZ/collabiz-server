@@ -1,9 +1,9 @@
-package collab.collabiz.service.Account;
+package collab.collabiz.service.account;
 
 import collab.collabiz.entity.Member;
-import collab.collabiz.entity.Account.dtos.AccountDto;
-import collab.collabiz.entity.Account.dtos.AccountResponseDto;
-import collab.collabiz.repository.Account.AccountRepository;
+import collab.collabiz.entity.account.dtos.AccountDto;
+import collab.collabiz.entity.account.dtos.AccountResponseDto;
+import collab.collabiz.repository.account.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

@@ -1,15 +1,15 @@
-package collab.collabiz.controller.Account;
+package collab.collabiz.controller.account;
 
-import collab.collabiz.AccountInfra.errors.ErrorResult;
-import collab.collabiz.AccountInfra.errors.UserException;
-import collab.collabiz.AccountInfra.validator.SignUpFormValidator;
+import collab.collabiz.accountInfra.errors.ErrorResult;
+import collab.collabiz.accountInfra.errors.UserException;
+import collab.collabiz.accountInfra.validator.SignUpFormValidator;
 import collab.collabiz.entity.Member;
-import collab.collabiz.entity.Account.dtos.AccountDto;
-import collab.collabiz.entity.Account.dtos.AccountResponseDto;
-import collab.collabiz.entity.Account.dtos.MailDto;
-import collab.collabiz.entity.Account.dtos.TokenDto;
-import collab.collabiz.repository.Account.AccountRepository;
-import collab.collabiz.service.Account.MailService;
+import collab.collabiz.entity.account.dtos.AccountDto;
+import collab.collabiz.entity.account.dtos.AccountResponseDto;
+import collab.collabiz.entity.account.dtos.MailDto;
+import collab.collabiz.entity.account.dtos.TokenDto;
+import collab.collabiz.repository.account.AccountRepository;
+import collab.collabiz.service.account.MailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
@@ -113,7 +113,7 @@ public class MailController {
 
    @ExceptionHandler
     public ResponseEntity<ErrorResult> userExHandler (UserException e) {
-        ErrorResult errorResult = new ErrorResult("회원가입 오류",e.getMessage());
+        ErrorResult errorResult = new ErrorResult("사용자 입력값 오류",e.getMessage());
         return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
     }
 

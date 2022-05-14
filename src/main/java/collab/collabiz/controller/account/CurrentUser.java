@@ -1,4 +1,4 @@
-package collab.collabiz.controller.Account;
+package collab.collabiz.controller.account;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

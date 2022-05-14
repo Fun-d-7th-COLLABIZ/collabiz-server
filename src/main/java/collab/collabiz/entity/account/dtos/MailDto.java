@@ -1,8 +1,7 @@
-package collab.collabiz.entity.Account.dtos;
+package collab.collabiz.entity.account.dtos;
 
 import lombok.*;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 

@@ -1,4 +1,4 @@
-package collab.collabiz.controller.Account;
+package collab.collabiz.controller.account;
 
 import collab.collabiz.entity.Member;
 import lombok.RequiredArgsConstructor;

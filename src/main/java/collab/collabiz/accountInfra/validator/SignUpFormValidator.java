@@ -1,8 +1,8 @@
-package collab.collabiz.AccountInfra.validator;
+package collab.collabiz.accountInfra.validator;
 
-import collab.collabiz.entity.Account.dtos.AccountDto;
-import collab.collabiz.entity.Account.dtos.MailDto;
-import collab.collabiz.repository.Account.AccountRepository;
+import collab.collabiz.entity.account.dtos.AccountDto;
+import collab.collabiz.entity.account.dtos.MailDto;
+import collab.collabiz.repository.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

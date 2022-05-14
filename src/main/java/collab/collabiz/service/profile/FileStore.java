@@ -1,15 +1,10 @@
-package collab.collabiz.entity.profile.file;
+package collab.collabiz.service.profile;
 
 import collab.collabiz.entity.profile.UploadFile;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Entity;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

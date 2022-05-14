@@ -1,83 +1,83 @@
 package collab.collabiz.controller.Profile;
 
-import collab.collabiz.entity.profile.ItemRepository;
-import collab.collabiz.entity.profile.MemberImage;
-import collab.collabiz.entity.profile.MemberImageForm;
+import collab.collabiz.accountInfra.errors.UserException;
+import collab.collabiz.controller.account.AccountResource;
+import collab.collabiz.entity.account.dtos.ProfileDto;
+import collab.collabiz.entity.Member;
 import collab.collabiz.entity.profile.UploadFile;
-import collab.collabiz.entity.profile.file.FileStore;
+import collab.collabiz.service.profile.FileStore;
+import collab.collabiz.repository.account.AccountRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.*;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriUtils;
+
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+
 @Slf4j
 @Controller
 //@RequiredArgsConstructor
 @AllArgsConstructor
 public class ProfileController {
-    private final ItemRepository itemRepository;
+    private AccountRepository accountRepository;
     private final FileStore fileStore;
 
-    @GetMapping("/items/new")
-    public String newItem(@ModelAttribute MemberImageForm form) {
-        return "item-form";
-    }
+    //콜라비즈
+    @PostMapping("/profile")
+    public ResponseEntity saveProfile(
+            @RequestPart(value = "profileDto", required = false) ProfileDto profileDto,
+            @RequestPart(value = "ProfileImage") MultipartFile profileImage,
+            @RequestPart(value = "BannerImage") MultipartFile bannerImage,
+            @RequestPart(value = "File1") MultipartFile file1,
+            @RequestPart(value = "File2") MultipartFile file2,
+            @RequestPart(value = "File3") MultipartFile file3,
+            RedirectAttributes redirectAttributes, BindingResult bindingResult) throws IOException {
 
-    @PostMapping("/items/new")
-    public String saveItem(@ModelAttribute MemberImageForm form, RedirectAttributes redirectAttributes) throws IOException {
-        //하나의 파일만 받을 때
-        UploadFile attachFile = fileStore.storeFile(form.getAttachFile());
-        //여러 파일 받을 때
-        List<UploadFile> storeImageFiles = fileStore.storeFiles(form.getImageFiles());
+        //하나의 파일만 받을 때(UploadFile-DTO)
+        //fileStore.storeFile로 파일 접근 경로를 만들어 가져온다.
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            throw new UserException("입력값이 잘못 되었습니다.");
+        }
 
-        //db에 저장
-        MemberImage item = new MemberImage();
-        item.setImageName(form.getItemName());
-        item.setAttachFile(attachFile);
-        item.setImageFiles(storeImageFiles);
-        itemRepository.save(item);
-        redirectAttributes.addAttribute("itemId", item.getId());
-        return "redirect:/items/{itemId}";
-    }
+        UploadFile attachProfileImageFile = fileStore.storeFile(profileImage);
+        UploadFile attachBannerImageFile = fileStore.storeFile(bannerImage);
+        UploadFile attachFile1 = fileStore.storeFile(file1);
+        UploadFile attachFile2 = fileStore.storeFile(file2);
+        UploadFile attachFile3 = fileStore.storeFile(file3);
 
-    @GetMapping("/items/{id}")
-    public String items(@PathVariable Long id, Model model) {
-        MemberImage item = itemRepository.findById(id);
-        model.addAttribute("item", item);
-        return "item-view";
-    }
+        //저장된 사용자 찾음
+        Member member = accountRepository.findByEmail(profileDto.getEmail());
 
-    @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.getFullPath(filename));
-    }
+        //프로필 이미지
+        member.setUploadProfileImage(attachProfileImageFile.getUploadFileName());
+        member.setStoreProfileImage(attachProfileImageFile.getStoreFileName());
+        //배너 이미지
+        member.setUploadBannerImage(attachBannerImageFile.getUploadFileName());
+        member.setStoreBannerImage(attachBannerImageFile.getStoreFileName());
+        //첨부파일1
+        member.setUploadFileName1(attachFile1.getUploadFileName());
+        member.setStoreFileName1(attachFile1.getStoreFileName());
+        //첨부파일2
+        member.setUploadFileName2(attachFile2.getUploadFileName());
+        member.setStoreFileName2(attachFile2.getStoreFileName());
+        //첨부파일3
+        member.setUploadFileName3(attachFile3.getUploadFileName());
+        member.setStoreFileName3(attachFile3.getStoreFileName());
 
-    @GetMapping("/attach/{itemId}")
-    public ResponseEntity<Resource> downloadAttach(@PathVariable Long itemId)
-            throws MalformedURLException {
-        MemberImage item = itemRepository.findById(itemId);
-        String storeFileName = item.getAttachFile().getStoreFileName();
-        String uploadFileName = item.getAttachFile().getUploadFileName();
-        UrlResource resource = new UrlResource("file:" +
-                fileStore.getFullPath(storeFileName));
-        log.info("uploadFileName={}", uploadFileName);
-        String encodedUploadFileName = UriUtils.encode(uploadFileName,
-                StandardCharsets.UTF_8);
-        String contentDisposition = "attachment; filename=\"" +
-                encodedUploadFileName + "\"";
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
-                .body(resource);
+        member.setCompanyUrl(profileDto.getCompanyUrl());
+        member.setCompanyIntroduction(profileDto.getCompanyIntroduction());
+        member.setCompanyContactNumber(profileDto.getCompanyContactNumber());
+        accountRepository.save(member); //사용자 정보 수정
+        EntityModel<Member> accountResource = AccountResource.modelOf(member);
+
+        //db에 저장(MemberImage-엔티티맵핑)
+        //return "redirect:/items/{itemId}";
+        return ResponseEntity.ok(accountResource);
     }
 }

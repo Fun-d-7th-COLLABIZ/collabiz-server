@@ -1,4 +1,4 @@
-package collab.collabiz.repository.Account;
+package collab.collabiz.repository.account;
 
 import collab.collabiz.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
