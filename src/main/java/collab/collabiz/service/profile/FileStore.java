@@ -20,37 +20,20 @@ public class FileStore {
         return fileDir + filename;
     }
 
-    //여러 파일이 넘어오는 경우
-    public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
-        List<UploadFile> storeFileResult = new ArrayList<>();
-        for (MultipartFile multipartFile : multipartFiles) {
-            if (!multipartFile.isEmpty()) {
-                storeFileResult.add(storeFile(multipartFile));
-            }
-        }
-        return storeFileResult;
-    }
-
     public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
-        if (multipartFile.isEmpty()) {
-            return null;
-        }
+        if (multipartFile.isEmpty()) { return null; }
         String originalFilename = multipartFile.getOriginalFilename();
-        
-        //확장자까지 저장은 필수는 아니지만 편의를 위해
-        String storeFileName = createStoreFileName(originalFilename); //파일 이름을 가져와서 저버에 저장하는 파일명+확장자 형식으로 만들어주기
-        multipartFile.transferTo(new File(getFullPath(storeFileName)));//파일 저장
+        String storeFileName = createStoreFileName(originalFilename);
+        multipartFile.transferTo(new File(getFullPath(storeFileName)));
         return new UploadFile(originalFilename, storeFileName);
     }
 
-    //파일명+확장자 형식으로 만들어주기
     private String createStoreFileName(String originalFilename) {
         String ext = extractExt(originalFilename);
         String uuid = UUID.randomUUID().toString();
         return uuid + "." + ext;
     }
-    
-    //확장자 떼기
+
     private String extractExt(String originalFilename) {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);

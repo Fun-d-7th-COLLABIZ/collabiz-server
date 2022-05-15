@@ -15,17 +15,12 @@ import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
-//@RequiredArgsConstructor
 @AllArgsConstructor
 public class MailService {
-    //mailSender는 AllArgsConstructor가 필요함
+
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "dahaeSpringstudy@gmail.com";
     private AccountRepository accountRepository;
-
-    public boolean checkEmailDuplicate(String email) {
-        return accountRepository.existsByEmail(email);
-    }
 
     public void mailSend(HttpSession session) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -40,53 +35,25 @@ public class MailService {
     public String generateEmailCheckToken() {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
         uuid = uuid.substring(0, 10);
-        //this.emailCheckToken = uuid;
-        //this.emailCheckTokenGeneratedAt = LocalDateTime.now();
         return uuid;
     }
 
     public void sendEmailCheckToken(HttpSession session) {
-        //1.토큰을 만들고 generateEmailCheckToken에서 Account 엔티티의 토큰에 값을 넣어준다.
-        //account.generateEmailCheckToken();
         session.setAttribute("token", generateEmailCheckToken());
-
-        //2.이메일을 보낸다
         mailSend(session);
     }
 
-    /**
-     * 이메일 토큰 검증 로직
-     */
-    public boolean isValidToken(HttpSession session,String token) {
-        return (session.getAttribute("token")).equals(token);
-        //return this.emailCheckToken.equals(token);
-    }
-    public void completeSignUp(HttpSession session) {
-        session.setAttribute("emailVerified", true);
+    public boolean isValidToken(HttpSession session,String token) {return (session.getAttribute("token")).equals(token);}
 
-    }
+    public void completeSignUp(HttpSession session) {session.setAttribute("emailVerified", true);}
 
     public AccountResponseDto emailVerification(HttpSession session, String token){
-        if (!isValidToken(session,token)) {//토큰이 맞는지 검증
+        if (!isValidToken(session,token)) {
             return null; 
         }
-
-        //토큰 검증이 끝났다면 -> completeSignUp으로 해당 객체의 setEmailVerified을 true로
         completeSignUp(session);
-
-
-
-
-
-        //토큰 검증 끝난 회원을 repository에 저장
-        //accountRepository.save(account);
-
-        //소영님과 상의 후 responseDto는 안만들어도 될 듯
         return createAccountResponseDto(session);
     }
-//    //public void completeSignUp(Account find) {
-//        find.completeSignUp();
-//    }
 
     public AccountResponseDto createAccountResponseDto(HttpSession session){
         AccountResponseDto dto = new AccountResponseDto();
@@ -95,27 +62,14 @@ public class MailService {
         return dto;
     }
 
-    /**
-     * 회원가입 정보 저장
-     */
-//    // save account
+    // save account
     public Member saveNewAccount(AccountDto accountDto) {
-
-        //이메일 검증 할 때 만들어 둔 회원을 찾고 나머지 정보 채워주기
-        //accountRepository.save(account);
-        //account.setEmail(accountDto.getEmail());
         Member member = new Member();
         member.setEmail(accountDto.getEmail());
         member.setPassword(accountDto.getPassword());
         member.setCompanyName(accountDto.getCompanyName());
         member.setBusinessRegistrationNumber(accountDto.getBusinessRegistrationNumber());
         accountRepository.save(member);
-
-        //map.setPassword(passwordEncoder.encode(map.getPassword()));
-        //map.generateEmailCheckToken(); 이메일 토큰 처리는 분리해 주었으니 이제 없어도 된다.
-        //accountRepository.save(account);
-
-        //저장된 객체 반환
         return member;
     }
 }

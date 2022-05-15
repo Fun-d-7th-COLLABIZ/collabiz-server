@@ -2,11 +2,9 @@ package collab.collabiz.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.UUID;
 
 @Entity
 @Data
@@ -31,7 +29,6 @@ public class Member {
     private String uploadBannerImage;
     private String storeBannerImage;
 
-
     //고객이 업로드한 파일명
     private String uploadFileName1;
     private String uploadFileName2;
@@ -48,12 +45,9 @@ public class Member {
     @NotBlank(message = "회사명은 필수 입력 값입니다.")
     private String companyName; //유저 회사 이름
 
-
     private String companyUrl; //회사 홈페이지 주소
 
-
     private String companyIntroduction ; //회사 소개글
-
 
     private String companyContactNumber; //회사전화번호
 
@@ -62,28 +56,9 @@ public class Member {
 
     private String level;//프로필 레빌
 
-
     private int report;//신고 당한 횟수
-
 
     private String created_date;//생성 날짜
 
-
     private String last_modified_date;//수정 날짜
-
-//    public void generateEmailCheckToken() {
-//        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-//        uuid = uuid.substring(0, 10);
-//        this.emailCheckToken = uuid;
-//        //this.emailCheckTokenGeneratedAt = LocalDateTime.now();
-//    }
-//
-//    public boolean isValidToken(String token) {
-//        return this.emailCheckToken.equals(token);
-//    }
-//
-//    public void completeSignUp() {
-//        this.setEmailVerified(true);
-//
-//    }
 }

@@ -21,13 +21,11 @@ import java.io.IOException;
 
 @Slf4j
 @Controller
-//@RequiredArgsConstructor
 @AllArgsConstructor
 public class ProfileController {
     private AccountRepository accountRepository;
     private final FileStore fileStore;
 
-    //콜라비즈
     @PostMapping("/profile")
     public ResponseEntity saveProfile(
             @RequestPart(value = "profileDto", required = false) ProfileDto profileDto,
@@ -36,10 +34,8 @@ public class ProfileController {
             @RequestPart(value = "File1") MultipartFile file1,
             @RequestPart(value = "File2") MultipartFile file2,
             @RequestPart(value = "File3") MultipartFile file3,
-            RedirectAttributes redirectAttributes, BindingResult bindingResult) throws IOException {
+            BindingResult bindingResult) throws IOException {
 
-        //하나의 파일만 받을 때(UploadFile-DTO)
-        //fileStore.storeFile로 파일 접근 경로를 만들어 가져온다.
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
@@ -73,11 +69,11 @@ public class ProfileController {
         member.setCompanyUrl(profileDto.getCompanyUrl());
         member.setCompanyIntroduction(profileDto.getCompanyIntroduction());
         member.setCompanyContactNumber(profileDto.getCompanyContactNumber());
-        accountRepository.save(member); //사용자 정보 수정
+
+        //사용자 정보 수정
+        accountRepository.save(member);
         EntityModel<Member> accountResource = AccountResource.modelOf(member);
 
-        //db에 저장(MemberImage-엔티티맵핑)
-        //return "redirect:/items/{itemId}";
         return ResponseEntity.ok(accountResource);
     }
 }

@@ -32,10 +32,7 @@ import javax.validation.Valid;
 public class MailController {
     private final MailService mailService;
     private AccountRepository accountRepository;
-    private final SignUpFormValidator validator;
-    /**
-     * 이메일 인증번호 전송 로직
-     */
+
     @PostMapping("/mail")
     public ResponseEntity execMail(HttpServletRequest request, @RequestBody @Valid MailDto mailDto, Errors errors, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
@@ -43,28 +40,23 @@ public class MailController {
             throw new UserException("입력값이 잘못 되었습니다.");
         }
 
-        //중복 이메일 검증
        if(accountRepository.existsByEmail(mailDto.getAddress())){
             throw new UserException("이미 존재하는 이메일입니다.");
         }
-        HttpSession session = request.getSession();//세션 생성
+
+        //세션 생성
+        HttpSession session = request.getSession();
         String email = mailDto.getAddress();
         session.setAttribute("email", email);
 
 
         Member member = new Member();
         member.setEmail(mailDto.getAddress());
-
-        //시큐리티를 적용하여 @CurrentUser를 쓸 수 없기 때문에 우선 여기서 save한다.
         mailService.sendEmailCheckToken(session);
-        //ccountRepository.save(account);
+
         return ResponseEntity.ok().build();
     }
 
-
-    /**
-     * 이메일 토큰 검증 로직
-     */
     @PostMapping("/emailVerification")
     public ResponseEntity emailVerification(HttpServletRequest request,@RequestBody @Valid TokenDto tokenDto,BindingResult bindingResult){
 
@@ -73,22 +65,19 @@ public class MailController {
             throw new UserException("입력값이 잘못 되었습니다.");
         }
 
-        //현재 인증 받고 있는 유저를 저장 하여 들고다닌다. @CurrentUser를 사용해서 가지고 온다.
         AccountResponseDto dto = mailService.emailVerification(request.getSession(), tokenDto.getToken());
 
-        if(dto == null){ //인증번호 맞지 않음
+        //인증번호 맞지 않음
+        if(dto == null){
             throw new UserException("인증번호가 맞지 않습니다.");
-            //return ResponseEntity.badRequest().build();
         } else{
-            //인증이 완료 되었다면 세션 초기화
+            //인증이 완료 -> 세션 초기화
             request.getSession().invalidate();
             return ResponseEntity.ok().build();
         }
     }
 
     /**
-     * 최종 회원가입
-     * 0511 수정 완료;
      * 서비스 로직 분리 필요
      */
 

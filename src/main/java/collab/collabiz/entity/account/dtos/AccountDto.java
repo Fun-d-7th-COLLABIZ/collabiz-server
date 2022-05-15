@@ -18,17 +18,13 @@ public class AccountDto {
 
     @NotBlank(message = "패스워드 값은 필수 입력 값입니다.")
     @Length(min = 8,max = 40)
-    //@JsonIgnore
     private String password;
 
     @NotBlank(message = "회사명은 필수 입력 값입니다.")
     //@Length(min = 3,max = 20)
-    //@Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
     private String companyName;
 
     @NotBlank(message = "사업자 등록번호는 필수 입력 값입니다.")
     //@Length(min = 3,max = 20)
-    //@Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9_-]{3,20}$")
     private String businessRegistrationNumber;
-
 }

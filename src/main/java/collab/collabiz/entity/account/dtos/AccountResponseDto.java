@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AccountResponseDto {
     private Long id;
-
     private String email;
     private boolean emailVerified;
 }
