@@ -1,6 +1,7 @@
 package collab.collabiz.service;
 
 import collab.collabiz.controller.Post.Dto.KeywordDto;
+import collab.collabiz.entity.Keyword;
 import collab.collabiz.entity.Post;
 import collab.collabiz.repository.KeywordRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,12 @@ public class KeywordService {
         }
 
         return KeywordList;
+    }
+
+    /**
+     * keyword 조회
+     */
+    public List<Keyword> findByPostId(Post post) {
+        return keywordRepository.findAllByPost(post);
     }
 }
