@@ -6,12 +6,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Data
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
-public class Member {
+public class Member extends BaseEntity{
     @Id
     @GeneratedValue
     @Column(name = "member_id")
@@ -61,4 +63,6 @@ public class Member {
     private String created_date;//생성 날짜
 
     private String last_modified_date;//수정 날짜
+
+    private boolean isAdmin;
 }
