@@ -31,7 +31,6 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class MailController {
     private final MailService mailService;
-    private AccountRepository accountRepository;
 
     @PostMapping("/mail")
     public ResponseEntity execMail(HttpServletRequest request, @RequestBody @Valid MailDto mailDto, Errors errors, BindingResult bindingResult) {
@@ -40,7 +39,7 @@ public class MailController {
             throw new UserException("입력값이 잘못 되었습니다.");
         }
 
-       if(accountRepository.existsByEmail(mailDto.getAddress())){
+       if(mailService.existsEmail(mailDto)){
             throw new UserException("이미 존재하는 이메일입니다.");
         }
 
@@ -49,9 +48,6 @@ public class MailController {
         String email = mailDto.getAddress();
         session.setAttribute("email", email);
 
-
-        Member member = new Member();
-        member.setEmail(mailDto.getAddress());
         mailService.sendEmailCheckToken(session);
 
         return ResponseEntity.ok().build();
@@ -77,26 +73,15 @@ public class MailController {
         }
     }
 
-    /**
-     * 서비스 로직 분리 필요
-     */
-
-    @PostMapping("/signUp") //이메일 인증 완료 후 회원가입 완료 버튼
+    @PostMapping("/signUp")
     public ResponseEntity signUp(@RequestBody @Valid AccountDto accountDto, BindingResult bindingResult, Errors errors) {
        if(bindingResult.hasErrors()){
            log.info("errors={}", bindingResult);
            throw new UserException("입력값이 잘못 되었습니다.");
        }
-        //Account account = mailService.saveNewAccount(accountDto); //회원가입(accountRepository.save())
-        Member account = new Member();
-        account.setEmail(accountDto.getEmail());
-        account.setPassword(accountDto.getPassword());
-        account.setCompanyName(accountDto.getCompanyName());
-        account.setBusinessRegistrationNumber(accountDto.getBusinessRegistrationNumber());
-        accountRepository.save(account);
-        EntityModel<Member> accountResource = AccountResource.modelOf(account);
+        Member member = mailService.saveNewAccount(accountDto);
+        EntityModel<Member> accountResource = AccountResource.modelOf(member);
 
-        //model에 담아서 전송
         return ResponseEntity.ok(accountResource);
     }
 

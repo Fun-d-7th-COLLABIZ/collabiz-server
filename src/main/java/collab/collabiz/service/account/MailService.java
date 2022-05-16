@@ -3,6 +3,7 @@ package collab.collabiz.service.account;
 import collab.collabiz.entity.Member;
 import collab.collabiz.entity.account.dtos.AccountDto;
 import collab.collabiz.entity.account.dtos.AccountResponseDto;
+import collab.collabiz.entity.account.dtos.MailDto;
 import collab.collabiz.repository.account.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -62,14 +63,15 @@ public class MailService {
         return dto;
     }
 
+
     // save account
     public Member saveNewAccount(AccountDto accountDto) {
-        Member member = new Member();
-        member.setEmail(accountDto.getEmail());
-        member.setPassword(accountDto.getPassword());
-        member.setCompanyName(accountDto.getCompanyName());
-        member.setBusinessRegistrationNumber(accountDto.getBusinessRegistrationNumber());
-        accountRepository.save(member);
-        return member;
+        accountRepository.save(accountDto.toEntity());
+        return accountDto.toEntity();
+    }
+
+    //
+    public Boolean existsEmail(MailDto mailDto){
+        return accountRepository.existsByEmail(mailDto.getAddress());
     }
 }

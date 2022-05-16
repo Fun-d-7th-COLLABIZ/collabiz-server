@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -26,6 +25,7 @@ public class ProfileController {
     private AccountRepository accountRepository;
     private final FileStore fileStore;
 
+    //서비스 로직 분리 필요.
     @PostMapping("/profile")
     public ResponseEntity saveProfile(
             @RequestPart(value = "profileDto", required = false) ProfileDto profileDto,
@@ -70,9 +70,9 @@ public class ProfileController {
         member.setCompanyIntroduction(profileDto.getCompanyIntroduction());
         member.setCompanyContactNumber(profileDto.getCompanyContactNumber());
 
-        //사용자 정보 수정
         accountRepository.save(member);
         EntityModel<Member> accountResource = AccountResource.modelOf(member);
+
 
         return ResponseEntity.ok(accountResource);
     }

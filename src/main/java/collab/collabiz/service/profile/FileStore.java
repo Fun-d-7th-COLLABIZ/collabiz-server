@@ -1,6 +1,9 @@
 package collab.collabiz.service.profile;
 
+import collab.collabiz.entity.Member;
+import collab.collabiz.entity.account.dtos.ProfileDto;
 import collab.collabiz.entity.profile.UploadFile;
+import collab.collabiz.repository.account.AccountRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +18,8 @@ import java.util.UUID;
 public class FileStore {
     @Value("${file.dir}")
     private String fileDir;
+    private AccountRepository accountRepository;
+    private ProfileDto profileDto;
 
     public String getFullPath(String filename) {
         return fileDir + filename;
@@ -38,4 +43,5 @@ public class FileStore {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
+
 }

@@ -8,19 +8,20 @@ import javax.validation.constraints.NotBlank;
 
 import static lombok.AccessLevel.PROTECTED;
 
-@Entity
-@Data
+
 @Builder
-@NoArgsConstructor
+@Entity
+@Getter
+@Setter //이후 리팩토링 예정
 @AllArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseEntity{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
-    @Email(message = "이메일 형식에 맞지 않습니다.")
-    @NotBlank(message = "이메일은 필수 입력 값입니다.")
+    @Column(nullable = false)
     private String email;
 
     //고객 프로필 이미지
@@ -44,7 +45,7 @@ public class Member extends BaseEntity{
     @JsonIgnore
     private String password;
 
-    @NotBlank(message = "회사명은 필수 입력 값입니다.")
+    @Column(nullable = false)
     private String companyName; //유저 회사 이름
 
     private String companyUrl; //회사 홈페이지 주소
@@ -53,16 +54,12 @@ public class Member extends BaseEntity{
 
     private String companyContactNumber; //회사전화번호
 
-    @NotBlank(message = "사업자 등록번호는 필수 입력 값입니다.")
+    @Column(nullable = false)
     private String businessRegistrationNumber; //사업자 등록번호
 
     private String level;//프로필 레빌
 
     private int report;//신고 당한 횟수
-
-    private String created_date;//생성 날짜
-
-    private String last_modified_date;//수정 날짜
 
     private boolean isAdmin;
 }

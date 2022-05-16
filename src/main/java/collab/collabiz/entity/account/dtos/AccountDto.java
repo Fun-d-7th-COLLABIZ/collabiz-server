@@ -1,5 +1,6 @@
 package collab.collabiz.entity.account.dtos;
 
+import collab.collabiz.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,17 @@ public class AccountDto {
     private String password;
 
     @NotBlank(message = "회사명은 필수 입력 값입니다.")
-    //@Length(min = 3,max = 20)
     private String companyName;
 
     @NotBlank(message = "사업자 등록번호는 필수 입력 값입니다.")
-    //@Length(min = 3,max = 20)
     private String businessRegistrationNumber;
+
+    public Member toEntity(){
+        return Member.builder()
+                .email(email)
+                .password(password)
+                .businessRegistrationNumber(businessRegistrationNumber)
+                .companyName(companyName)
+                .build();
+    }
 }
