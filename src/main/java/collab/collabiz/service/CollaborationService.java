@@ -34,11 +34,19 @@ public class CollaborationService {
         List<Collaboration> collaborations = collaborationRepository.findAll(sort);
         List<Ranking> rankings = new ArrayList<>(); // 반환할 dto
 
+
+
         for (Collaboration collaboration : collaborations) {
+            // heart 수 가져오기
+            String heartCount = collaborationRepository.getHeartCount(collaboration.getId());
+
             Ranking ranking = Ranking.builder()
                     .id(collaboration.getId())
                     .title(collaboration.getPost().getTitle())
                     .content(collaboration.getPost().getContent())
+                    .heart(heartCount)
+                    .view(Integer.toString(collaboration.getPost().getViews()))
+                    .share(Integer.toString((int)(Math.random() * 100))) // 임의의 랜덤값으로 대체 추후 리펙토링
                     .endDate(collaboration.getPost().getRecruitEndDate())
                     .build();
 
