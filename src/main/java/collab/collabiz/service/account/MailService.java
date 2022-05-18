@@ -35,7 +35,7 @@ public class MailService {
     private static final String FROM_ADDRESS = "dahaeSpringstudy@gmail.com";
     private final MemberRepository memberRepository;
 
-    public void mailSend11(HttpSession session) {
+    public void simpleMailSend(HttpSession session) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo((String) session.getAttribute("email"));
         message.setFrom(MailService.FROM_ADDRESS);
