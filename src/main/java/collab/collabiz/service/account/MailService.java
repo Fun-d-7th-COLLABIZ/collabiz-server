@@ -73,7 +73,7 @@ public class MailService {
 
     public String generateEmailCheckToken() {
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        uuid = uuid.substring(0, 10);
+        uuid = uuid.substring(0, 6);
         return uuid;
     }
 
