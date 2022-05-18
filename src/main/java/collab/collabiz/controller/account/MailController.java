@@ -2,13 +2,11 @@ package collab.collabiz.controller.account;
 
 import collab.collabiz.accountInfra.errors.ErrorResult;
 import collab.collabiz.accountInfra.errors.UserException;
-import collab.collabiz.accountInfra.validator.SignUpFormValidator;
 import collab.collabiz.entity.Member;
 import collab.collabiz.entity.account.dtos.AccountDto;
 import collab.collabiz.entity.account.dtos.AccountResponseDto;
 import collab.collabiz.entity.account.dtos.MailDto;
 import collab.collabiz.entity.account.dtos.TokenDto;
-import collab.collabiz.repository.account.AccountRepository;
 import collab.collabiz.service.account.MailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

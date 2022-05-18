@@ -1,7 +1,6 @@
 package collab.collabiz.entity.account;
 
 import collab.collabiz.entity.Member;
-import collab.collabiz.repository.account.AccountRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

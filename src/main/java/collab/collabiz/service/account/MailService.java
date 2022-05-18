@@ -4,7 +4,7 @@ import collab.collabiz.entity.Member;
 import collab.collabiz.entity.account.dtos.AccountDto;
 import collab.collabiz.entity.account.dtos.AccountResponseDto;
 import collab.collabiz.entity.account.dtos.MailDto;
-import collab.collabiz.repository.account.AccountRepository;
+import collab.collabiz.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,7 +21,7 @@ public class MailService {
 
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "dahaeSpringstudy@gmail.com";
-    private AccountRepository accountRepository;
+    private final MemberRepository memberRepository;
 
     public void mailSend(HttpSession session) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -66,12 +66,12 @@ public class MailService {
 
     // save account
     public Member saveNewAccount(AccountDto accountDto) {
-        accountRepository.save(accountDto.toEntity());
+        memberRepository.save(accountDto.toEntity());
         return accountDto.toEntity();
     }
 
     //
     public Boolean existsEmail(MailDto mailDto){
-        return accountRepository.existsByEmail(mailDto.getAddress());
+        return memberRepository.existsByEmail(mailDto.getAddress());
     }
 }
