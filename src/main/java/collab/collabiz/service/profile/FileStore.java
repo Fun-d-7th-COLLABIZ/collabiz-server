@@ -1,7 +1,10 @@
 package collab.collabiz.service.profile;
 
+import collab.collabiz.entity.Member;
+import collab.collabiz.entity.account.dtos.AccountDto;
 import collab.collabiz.entity.account.dtos.ProfileDto;
 import collab.collabiz.entity.profile.UploadFile;
+import collab.collabiz.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
