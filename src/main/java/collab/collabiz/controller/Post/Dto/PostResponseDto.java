@@ -16,6 +16,7 @@ public class PostResponseDto {
     private Member member;
     private String title;
     private String possibleOffer; // 제공 가능한 서비스
+    private String requiredOffer;
     private String content; // 콜라보 상세 내용
     private LocalDateTime recruitStartDate; // 모집 시작일
     private LocalDateTime recruitEndDate; // 모집 마감일
@@ -28,6 +29,7 @@ public class PostResponseDto {
         this.member = entity.getMember();
         this.title = entity.getTitle();
         this.possibleOffer = entity.getPossibleOffer();
+        this.requiredOffer=entity.getRequiredOffer();
         this.content = entity.getContent();
         this.recruitStartDate = entity.getRecruitStartDate();
         this.recruitEndDate = entity.getRecruitEndDate();
