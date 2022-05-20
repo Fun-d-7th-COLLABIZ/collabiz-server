@@ -36,6 +36,7 @@ public class Post extends BaseEntity {
 
     private String title;
     private String possibleOffer; // 제공 가능한 서비스
+    private String requiredOffer; //필요 서비스
     private String content; // 콜라보 상세 내용
     private LocalDateTime recruitStartDate; // 모집 시작일
     private LocalDateTime recruitEndDate; // 모집 마감일
@@ -43,10 +44,11 @@ public class Post extends BaseEntity {
     private String regionDetail; // 장소 상세 설명
 
     @Builder // 해당 클래스의 빌더패턴 클래스 생성 -> 생성자 상단에 선언시 생성자에 포함된 필드만 빌더에 포함 -> 빌더를 이용해 데이터 삽입
-    public Post(Member member,String title, String possibleOffer, String content,LocalDateTime recruitStartDate,LocalDateTime recruitEndDate,String region,String regionDetail,List<String> keyword){
+    public Post(Member member,String title, String possibleOffer,String requiredOffer, String content,LocalDateTime recruitStartDate,LocalDateTime recruitEndDate,String region,String regionDetail,List<String> keyword){
         this.member=member;
         this.title=title;
         this.possibleOffer=possibleOffer;
+        this.requiredOffer=requiredOffer;
         this.content=content;
         this.recruitStartDate=recruitStartDate;
         this.recruitEndDate=recruitEndDate;
