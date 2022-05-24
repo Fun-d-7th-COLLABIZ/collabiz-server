@@ -41,17 +41,31 @@ public class ProfileController {
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
         }
-
-        UploadFile attachProfileImageFile = fileStore.storeFile(profileImage);
-        UploadFile attachBannerImageFile = fileStore.storeFile(bannerImage);
-        UploadFile attachFile1 = fileStore.storeFile(file1);
-        UploadFile attachFile2 = fileStore.storeFile(file2);
-        UploadFile attachFile3 = fileStore.storeFile(file3);
-
         //저장된 사용자 찾음
         Optional<Member> findMember = memberRepository.findByEmail(profileDto.getEmail());
 
-        Member member = findMember.orElseThrow(NullPointerException::new);
+        Member member = findMember.get();
+
+        UploadFile attachProfileImageFile = fileStore.storeFile(profileImage);
+        UploadFile attachBannerImageFile = fileStore.storeFile(bannerImage);
+
+        //List로 바꾸기.
+        //첨부파일은 필수사항 아님.
+        if(!file1.isEmpty()) {
+            UploadFile attachFile1 = fileStore.storeFile(file1);
+            member.setUploadFileName1(attachFile1.getUploadFileName());
+            member.setStoreFileName1(attachFile1.getStoreFileName());
+        }
+        if(!file2.isEmpty()) {
+            UploadFile attachFile2 = fileStore.storeFile(file2);
+            member.setUploadFileName2(attachFile2.getUploadFileName());
+            member.setStoreFileName2(attachFile2.getStoreFileName());
+        }
+        if(!file3.isEmpty()) {
+            UploadFile attachFile3 = fileStore.storeFile(file3);
+            member.setUploadFileName3(attachFile3.getUploadFileName());
+            member.setStoreFileName3(attachFile3.getStoreFileName());
+        }
 
         //프로필 이미지
         member.setUploadProfileImage(attachProfileImageFile.getUploadFileName());
@@ -59,18 +73,6 @@ public class ProfileController {
         //배너 이미지
         member.setUploadBannerImage(attachBannerImageFile.getUploadFileName());
         member.setStoreBannerImage(attachBannerImageFile.getStoreFileName());
-
-
-        //List로 바꾸기.
-        //첨부파일1
-        member.setUploadFileName1(attachFile1.getUploadFileName());
-        member.setStoreFileName1(attachFile1.getStoreFileName());
-        //첨부파일2
-        member.setUploadFileName2(attachFile2.getUploadFileName());
-        member.setStoreFileName2(attachFile2.getStoreFileName());
-        //첨부파일3
-        member.setUploadFileName3(attachFile3.getUploadFileName());
-        member.setStoreFileName3(attachFile3.getStoreFileName());
 
         member.setCompanyUrl(profileDto.getCompanyUrl());
         member.setCompanyIntroduction(profileDto.getCompanyIntroduction());
