@@ -26,6 +26,14 @@ public class ProfileController {
     private final MemberRepository memberRepository;
     private final FileStore fileStore;
 
+    @GetMapping("/profile")
+    public ResponseEntity profile(){
+
+
+
+        return (ResponseEntity) ResponseEntity.ok();
+    }
+
     //서비스 로직 분리 필요.
     @PostMapping("/profile")
     public ResponseEntity saveProfile(

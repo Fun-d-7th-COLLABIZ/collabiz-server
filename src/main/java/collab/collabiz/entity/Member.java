@@ -2,6 +2,8 @@ package collab.collabiz.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -57,6 +59,7 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private String businessRegistrationNumber; //사업자 등록번호
 
+    @ColumnDefault("1")
     private String level;//프로필 레빌
 
     private int report;//신고 당한 횟수
