@@ -83,6 +83,7 @@ public class ProfileController {
         member.setStoreBannerImage(attachBannerImageFile.getStoreFileName());
 
         member.setCompanyUrl(profileDto.getCompanyUrl());
+        member.setCompanyIntroductionSummary(profileDto.getCompanyIntroductionSummary());
         member.setCompanyIntroduction(profileDto.getCompanyIntroduction());
         member.setCompanyContactNumber(profileDto.getCompanyContactNumber());
 
