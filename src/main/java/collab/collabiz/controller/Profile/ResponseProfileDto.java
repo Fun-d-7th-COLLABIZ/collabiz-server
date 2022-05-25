@@ -7,13 +7,18 @@ import lombok.Setter;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
+import javax.persistence.Lob;
+
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseProfileDto {
-    private Resource resourceProfileImage;
-    private Resource resourceBannerImage;
+
+    @Lob //binary
+    private String resourceProfileImage;
+    @Lob
+    private String resourceBannerImage;
 
     private String companyName;
 

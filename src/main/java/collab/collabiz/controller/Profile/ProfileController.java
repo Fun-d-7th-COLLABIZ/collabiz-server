@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StreamUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,31 +34,58 @@ public class ProfileController {
     private final MemberRepository memberRepository;
     private final FileStore fileStore;
 
+    /**
+     *
+     * @param memberId
+     * @return ResponseProfileDto
+     * @throws MalformedURLException
+     */
     @ResponseBody
-    @GetMapping("/profile/{memberId}")
+    @GetMapping("/profile/Link/{memberId}")
     public ResponseEntity<ResponseProfileDto> profile(@PathVariable Long memberId) throws MalformedURLException {
         Optional<Member> findMember = memberRepository.findById(memberId);
         Member member = findMember.get();
-        String storeProfileImageName = member.getStoreProfileImage();
-        String uploadProfileImageName = member.getUploadProfileImage();
-        String storeBannerImageName = member.getStoreBannerImage();
-        String uploadBannerImageName = member.getUploadBannerImage();
 
-        String encodeUploadProfileImageName = UriUtils.encode(uploadProfileImageName, StandardCharsets.UTF_8);
-        String encodeUploadBannerImageName = UriUtils.encode(uploadBannerImageName, StandardCharsets.UTF_8);
-        Resource resourceProfileImage = new UrlResource("file:"+ fileStore.getFullPath(storeProfileImageName));
-        Resource resourceBannerImage = new UrlResource("file:"+ fileStore.getFullPath(storeBannerImageName));
+        String storeProfileImageName = member.getStoreProfileImage();
+        String storeBannerImageName = member.getStoreBannerImage();
+        String resourceProfileImage = String.valueOf(new UrlResource("file:"+ fileStore.getFullPath(storeProfileImageName)));
+        String resourceBannerImage = String.valueOf(new UrlResource("file:"+ fileStore.getFullPath(storeBannerImageName)));
 
         ResponseProfileDto responseProfileDto = new ResponseProfileDto(resourceProfileImage,resourceBannerImage,
-                member.getCompanyName(),member.getBusinessRegistrationNumber(),member.getCompanyIntroductionSummary(),member.getCompanyIntroduction(),
+                member.getCompanyName(),member.getBusinessRegistrationNumber(),
+                member.getCompanyIntroductionSummary(),member.getCompanyIntroduction(),
                 member.getUploadFileName1(),member.getUploadFileName2(),member.getUploadFileName3());
+
         return new ResponseEntity(responseProfileDto, HttpStatus.OK);
     }
 
     @ResponseBody
+    @GetMapping("/profile/Binary/{memberId}")
+    public ResponseEntity<ResponseProfileDto> profileTest2(@PathVariable Long memberId) throws IOException {
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        Member member = findMember.get();
+
+        String storeProfileImageName = member.getStoreProfileImage();
+        String storeBannerImageName = member.getStoreBannerImage();
+        Resource resourceProfileImage = new UrlResource("file:"+ fileStore.getFullPath(storeProfileImageName));
+        String profileResource = StreamUtils.copyToString(resourceProfileImage.getInputStream(),StandardCharsets.UTF_8);
+        Resource resourceBannerImage = new UrlResource("file:"+ fileStore.getFullPath(storeBannerImageName));
+        String bannerResource = StreamUtils.copyToString(resourceBannerImage.getInputStream(),StandardCharsets.UTF_8);
+
+        ResponseProfileDto responseProfileDto = new ResponseProfileDto(profileResource,bannerResource,
+                member.getCompanyName(),member.getBusinessRegistrationNumber(),
+                member.getCompanyIntroductionSummary(), member.getCompanyIntroduction(),
+                member.getUploadFileName1(),member.getUploadFileName2(),member.getUploadFileName3());
+
+        return new ResponseEntity(responseProfileDto, HttpStatus.OK);
+    }
+
+
+    //프로필 이미지 하나만 전송
+    @ResponseBody
     @GetMapping("/profileTest/{memberId}")
     public Resource profileTest(@PathVariable Long memberId) throws MalformedURLException {
-       Optional<Member> memberFind = memberRepository.findById(memberId);
+        Optional<Member> memberFind = memberRepository.findById(memberId);
         Member member = memberFind.get();
 
         return new UrlResource("file:" + fileStore.getFullPath(member.getStoreProfileImage()));
