@@ -52,6 +52,11 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private String companyName; //유저 회사 이름
 
+    private String faxNumber; //fax주소
+    
+    private String region;//회사주소
+    private String regionDetail; // 상세 주소
+    
     private String companyUrl; //회사 홈페이지 주소
 
     private String companyIntroductionSummary; //회사 소개 요약
@@ -69,4 +74,6 @@ public class Member extends BaseEntity{
     private int report;//신고 당한 횟수
 
     private boolean isAdmin;
+
+    
 }

@@ -40,8 +40,9 @@ public class ProfileController {
      * @return ResponseProfileDto
      * @throws MalformedURLException
      */
+    //프로필과 배너 이미지를 저장된 link로 전송
     @ResponseBody
-    @GetMapping("/profile/Link/{memberId}")
+    @GetMapping("/profile/link/{memberId}")
     public ResponseEntity<ResponseProfileDto> profile(@PathVariable Long memberId) throws MalformedURLException {
         Optional<Member> findMember = memberRepository.findById(memberId);
         Member member = findMember.get();
@@ -51,16 +52,14 @@ public class ProfileController {
         String resourceProfileImage = String.valueOf(new UrlResource("file:"+ fileStore.getFullPath(storeProfileImageName)));
         String resourceBannerImage = String.valueOf(new UrlResource("file:"+ fileStore.getFullPath(storeBannerImageName)));
 
-        ResponseProfileDto responseProfileDto = new ResponseProfileDto(resourceProfileImage,resourceBannerImage,
-                member.getCompanyName(),member.getBusinessRegistrationNumber(),
-                member.getCompanyIntroductionSummary(),member.getCompanyIntroduction(),
-                member.getUploadFileName1(),member.getUploadFileName2(),member.getUploadFileName3());
+        ResponseProfileDto responseProfileDto = getResponseProfileDto(member, resourceProfileImage, resourceBannerImage);
 
         return new ResponseEntity(responseProfileDto, HttpStatus.OK);
     }
 
+    //프로필과 배너 이미지를 binary코드로 전송
     @ResponseBody
-    @GetMapping("/profile/Binary/{memberId}")
+    @GetMapping("/profile/binary/{memberId}")
     public ResponseEntity<ResponseProfileDto> profileTest2(@PathVariable Long memberId) throws IOException {
         Optional<Member> findMember = memberRepository.findById(memberId);
         Member member = findMember.get();
@@ -72,18 +71,14 @@ public class ProfileController {
         Resource resourceBannerImage = new UrlResource("file:"+ fileStore.getFullPath(storeBannerImageName));
         String bannerResource = StreamUtils.copyToString(resourceBannerImage.getInputStream(),StandardCharsets.UTF_8);
 
-        ResponseProfileDto responseProfileDto = new ResponseProfileDto(profileResource,bannerResource,
-                member.getCompanyName(),member.getBusinessRegistrationNumber(),
-                member.getCompanyIntroductionSummary(), member.getCompanyIntroduction(),
-                member.getUploadFileName1(),member.getUploadFileName2(),member.getUploadFileName3());
+        ResponseProfileDto responseProfileDto = getResponseProfileDto(member, profileResource, bannerResource);
 
         return new ResponseEntity(responseProfileDto, HttpStatus.OK);
     }
 
-
     //프로필 이미지 하나만 전송
     @ResponseBody
-    @GetMapping("/profileTest/{memberId}")
+    @GetMapping("/profile/{memberId}")
     public Resource profileTest(@PathVariable Long memberId) throws MalformedURLException {
         Optional<Member> memberFind = memberRepository.findById(memberId);
         Member member = memberFind.get();
@@ -154,12 +149,26 @@ public class ProfileController {
         }
         //저장된 사용자 찾음
         Optional<Member> findMember = memberRepository.findByEmail(profileDto.getEmail());
-
         Member member = findMember.get();
 
         UploadFile attachProfileImageFile = fileStore.storeFile(profileImage);
         UploadFile attachBannerImageFile = fileStore.storeFile(bannerImage);
 
+        EntityModel<Member> accountResource = getMemberEntityModel(profileDto, file1, file2, file3, member, attachProfileImageFile, attachBannerImageFile);
+
+
+        return ResponseEntity.ok(accountResource);
+    }
+
+    private ResponseProfileDto getResponseProfileDto(Member member, String resourceProfileImage, String resourceBannerImage) {
+        return new ResponseProfileDto(resourceProfileImage, resourceBannerImage,
+                member.getCompanyName(), member.getFaxNumber(), member.getBusinessRegistrationNumber(),
+                member.getCompanyIntroductionSummary(), member.getCompanyIntroduction(), member.getEmail(),
+                member.getLevel(), member.getCompanyContactNumber(), member.getRegion(), member.getRegionDetail(),
+                member.getUploadFileName1(), member.getUploadFileName2(), member.getUploadFileName3());
+    }
+
+    private EntityModel<Member> getMemberEntityModel(ProfileDto profileDto, MultipartFile file1, MultipartFile file2, MultipartFile file3, Member member, UploadFile attachProfileImageFile, UploadFile attachBannerImageFile) throws IOException {
         //List로 바꾸기.
         //첨부파일은 필수사항 아님.
         if(!file1.isEmpty()) {
@@ -192,8 +201,6 @@ public class ProfileController {
 
         memberRepository.save(member);
         EntityModel<Member> accountResource = AccountResource.modelOf(member);
-
-
-        return ResponseEntity.ok(accountResource);
+        return accountResource;
     }
 }

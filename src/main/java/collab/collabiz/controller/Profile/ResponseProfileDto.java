@@ -22,11 +22,20 @@ public class ResponseProfileDto {
 
     private String companyName;
 
-    private String businessRegistrationNumber;
+    private String faxNumber; //fax주소
+    
+    private String businessRegistrationNumber; //사업자 등록 번호
 
     private String companyIntroductionSummary; //회사 소개 요약
 
     private String companyIntroduction ; //회사 소개글
+
+    private String email;
+    private String level;//프로필 레빌
+    private String companyContactNumber; //회사전화번호
+
+    private String region;
+    private String regionDetail; // 상세 주소
 
     //고객이 업로드한 파일명
     private String uploadFileName1;
