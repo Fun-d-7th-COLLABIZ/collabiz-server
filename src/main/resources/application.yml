@@ -1,9 +1,9 @@
 spring:
   mail:
-    host: smtp.gmail.com
+    host: smtp.naver.com
     port: 587
-    username: dahaeSpringstudy@gmail.com
-    password: wjdekgo99!
+    username: collabiz@naver.com
+    password: $$collabiz
     properties:
       mail:
         smtp:

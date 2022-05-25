@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @Controller
@@ -31,7 +32,7 @@ public class MailController {
     private final MailService mailService;
 
     @PostMapping("/mail")
-    public ResponseEntity execMail(HttpServletRequest request, @RequestBody @Valid MailDto mailDto, Errors errors, BindingResult bindingResult) {
+    public ResponseEntity execMail(HttpServletRequest request, @RequestBody @Valid MailDto mailDto, Errors errors, BindingResult bindingResult) throws UnsupportedEncodingException {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             throw new UserException("입력값이 잘못 되었습니다.");
