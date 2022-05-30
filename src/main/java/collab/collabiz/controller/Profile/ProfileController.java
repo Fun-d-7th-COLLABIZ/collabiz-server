@@ -86,6 +86,16 @@ public class ProfileController {
         return new UrlResource("file:" + fileStore.getFullPath(member.getStoreProfileImage()));
     }
 
+    //배너 이미지 하나만 전송
+    @ResponseBody
+    @GetMapping("/banner/{memberId}")
+    public Resource bannerTest(@PathVariable Long memberId) throws MalformedURLException {
+        Optional<Member> memberFind = memberRepository.findById(memberId);
+        Member member = memberFind.get();
+
+        return new UrlResource("file:" + fileStore.getFullPath(member.getStoreBannerImage()));
+    }
+
     @GetMapping("/profile/file1/{memberId}")
     public ResponseEntity<Resource> downloadFile1(@PathVariable Long memberId)throws MalformedURLException{
         Optional<Member> findMember = memberRepository.findById(memberId);
