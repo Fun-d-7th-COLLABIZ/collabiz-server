@@ -40,10 +40,11 @@ public class ProfileController {
      * @return ResponseProfileDto
      * @throws MalformedURLException
      */
+    /* 프론트 측 실행 x
     //프로필과 배너 이미지를 저장된 link로 전송
     @ResponseBody
     @GetMapping("/profile/link/{memberId}")
-    public ResponseEntity<ResponseProfileDto> profile(@PathVariable Long memberId) throws MalformedURLException {
+    public ResponseEntity<ResponseProfileDto> profileTest(@PathVariable Long memberId) throws MalformedURLException {
         Optional<Member> findMember = memberRepository.findById(memberId);
         Member member = findMember.get();
 
@@ -74,12 +75,12 @@ public class ProfileController {
         ResponseProfileDto responseProfileDto = getResponseProfileDto(member, profileResource, bannerResource);
 
         return new ResponseEntity(responseProfileDto, HttpStatus.OK);
-    }
+    } */
 
     //프로필 이미지 하나만 전송
     @ResponseBody
-    @GetMapping("/profile/{memberId}")
-    public Resource profileTest(@PathVariable Long memberId) throws MalformedURLException {
+    @GetMapping("/profile/profileImg/{memberId}")
+    public Resource profile(@PathVariable Long memberId) throws MalformedURLException {
         Optional<Member> memberFind = memberRepository.findById(memberId);
         Member member = memberFind.get();
 
@@ -88,12 +89,23 @@ public class ProfileController {
 
     //배너 이미지 하나만 전송
     @ResponseBody
-    @GetMapping("/banner/{memberId}")
-    public Resource bannerTest(@PathVariable Long memberId) throws MalformedURLException {
+    @GetMapping("profile/bannerImg/{memberId}")
+    public Resource banner(@PathVariable Long memberId) throws MalformedURLException {
         Optional<Member> memberFind = memberRepository.findById(memberId);
         Member member = memberFind.get();
 
         return new UrlResource("file:" + fileStore.getFullPath(member.getStoreBannerImage()));
+    }
+
+    //프로필과 배너 이미지를 binary코드로 전송
+    @ResponseBody
+    @GetMapping("/profile/data/{memberId}")
+    public ResponseEntity<ResponseProfileDto> profileData(@PathVariable Long memberId){
+        Optional<Member> findMember = memberRepository.findById(memberId);
+        Member member = findMember.get();
+        ResponseProfileDto responseProfileDto = getResponseProfileDto(member);
+
+        return new ResponseEntity(responseProfileDto, HttpStatus.OK);
     }
 
     @GetMapping("/profile/file1/{memberId}")
@@ -170,9 +182,17 @@ public class ProfileController {
         return ResponseEntity.ok(accountResource);
     }
 
-    private ResponseProfileDto getResponseProfileDto(Member member, String resourceProfileImage, String resourceBannerImage) {
-        return new ResponseProfileDto(resourceProfileImage, resourceBannerImage,
-                member.getCompanyName(), member.getFaxNumber(), member.getBusinessRegistrationNumber(),
+//    private ResponseProfileDto getResponseProfileDto(Member member, String resourceProfileImage, String resourceBannerImage) {
+//        return new ResponseProfileDto(resourceProfileImage, resourceBannerImage,
+//                member.getCompanyName(), member.getFaxNumber(),member.getCompanyUrl(), member.getBusinessRegistrationNumber(),
+//                member.getCompanyIntroductionSummary(), member.getCompanyIntroduction(), member.getEmail(),
+//                member.getLevel(), member.getCompanyContactNumber(), member.getRegion(), member.getRegionDetail(),
+//                member.getUploadFileName1(), member.getUploadFileName2(), member.getUploadFileName3());
+//    }
+
+    private ResponseProfileDto getResponseProfileDto(Member member) {
+        return new ResponseProfileDto(
+                member.getCompanyName(), member.getFaxNumber(),member.getCompanyUrl(), member.getBusinessRegistrationNumber(),
                 member.getCompanyIntroductionSummary(), member.getCompanyIntroduction(), member.getEmail(),
                 member.getLevel(), member.getCompanyContactNumber(), member.getRegion(), member.getRegionDetail(),
                 member.getUploadFileName1(), member.getUploadFileName2(), member.getUploadFileName3());

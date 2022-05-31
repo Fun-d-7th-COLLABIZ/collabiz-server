@@ -15,14 +15,15 @@ import javax.persistence.Lob;
 @AllArgsConstructor
 public class ResponseProfileDto {
 
-    @Lob //binary
-    private String resourceProfileImage;
-    @Lob
-    private String resourceBannerImage;
+    //@Lob //binary
+    //private String resourceProfileImage;
+    //@Lob
+   //private String resourceBannerImage;
 
     private String companyName;
 
     private String faxNumber; //fax주소
+    private String companyUrl; //회사 홈페이지 주소
     
     private String businessRegistrationNumber; //사업자 등록 번호
 
