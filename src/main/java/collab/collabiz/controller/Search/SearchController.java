@@ -20,9 +20,9 @@ public class SearchController {
     private final SearchService searchService;
 
     @GetMapping(value = "/search") //콜라보레이션 검색
-    public ResponseEntity<List<Post>> search(@PageableDefault(size = 5) Pageable pageable, @RequestParam("keywordCondition") List<String> keywordCondition,@RequestParam("regionCondition") List<String> regionCondition,@RequestParam("categoryCondition") List<String> categoryCondition){
+    public ResponseEntity<List<Post>> search(@PageableDefault(size = 5) @RequestBody SearchRequestDto searchRequestDto, Pageable pageable){
 
-        List<Post> postList= searchService.search(regionCondition,keywordCondition,categoryCondition,pageable);
+        List<Post> postList= searchService.search(searchRequestDto.getRegionCondition(), searchRequestDto.getCategoryCondition(), searchRequestDto.getKeywordCondition(),pageable);
         return new ResponseEntity(postList,HttpStatus.OK);
     }
 }
