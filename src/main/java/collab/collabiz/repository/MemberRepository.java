@@ -3,6 +3,8 @@ package collab.collabiz.repository;
 import collab.collabiz.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * by.seongcheol
  * 모두 사용해보셔서 알고 계시겠지만 혹시나 하는 마음에
@@ -13,5 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-
+    public Optional<Member> findByEmail(String email);
+    //Member findByEmail(String email);
+    boolean existsByEmail(String email);
 }
