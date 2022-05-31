@@ -2,6 +2,9 @@ package collab.collabiz.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @Setter //이후 리팩토링 예정
+@DynamicInsert
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 public class Member extends BaseEntity{
@@ -48,7 +52,14 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private String companyName; //유저 회사 이름
 
+    private String faxNumber; //fax주소
+    
+    private String region;//회사주소
+    private String regionDetail; // 상세 주소
+    
     private String companyUrl; //회사 홈페이지 주소
+
+    private String companyIntroductionSummary; //회사 소개 요약
 
     private String companyIntroduction ; //회사 소개글
 
@@ -57,9 +68,12 @@ public class Member extends BaseEntity{
     @Column(nullable = false)
     private String businessRegistrationNumber; //사업자 등록번호
 
+    @ColumnDefault("1")
     private String level;//프로필 레빌
 
     private int report;//신고 당한 횟수
 
     private boolean isAdmin;
+
+    
 }

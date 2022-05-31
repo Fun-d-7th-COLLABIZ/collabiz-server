@@ -15,7 +15,7 @@ public class CollaborationController {
     private final CollaborationService collaborationService;
 
     /**
-     * 콜라보 인기 순위 조회
+     * 콜라보 인기 순위 조회 [메인 페이지]
      */
     @GetMapping("/collaborations/ranking")
     public List<Ranking> ranking() {

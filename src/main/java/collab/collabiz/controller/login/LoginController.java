@@ -4,6 +4,7 @@ import collab.collabiz.controller.login.dto.LoginReq;
 import collab.collabiz.controller.login.dto.LoginRes;
 import collab.collabiz.controller.login.dto.LogoutRes;
 import collab.collabiz.service.login.LoginService;
+import collab.collabiz.service.login.LoginSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -38,5 +39,14 @@ public class LoginController {
     @GetMapping("/logout")
     public LogoutRes logout(HttpServletRequest request) {
         return loginService.logout(request);
+    }
+
+    /**
+     * 로그인 체크
+     */
+    @GetMapping("/loginCheck")
+    public LoginSession loginChk(HttpServletRequest request) {
+        log.info("login Check - start");
+        return loginService.loginChk(request);
     }
 }

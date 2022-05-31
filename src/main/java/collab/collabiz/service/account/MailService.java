@@ -20,8 +20,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
 import java.util.UUID;
 
 @Service
@@ -47,13 +50,18 @@ public class MailService {
         mailSender.send(message);
     }
 
-    public void mailSend(HttpSession session) {
+    public void mailSend(HttpSession session) throws UnsupportedEncodingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
+        //네이버 인증
+        String host = "smtp.naver.com";
+        String user = "collabiz@naver.com"; //자신의 네이버 계정
+        String password = "$$collabiz";//자신의 네이버 패스워드
 
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8"); // 이미지 넣기 위해 true로
             mimeMessageHelper.setTo((String) session.getAttribute("email"));
-            mimeMessageHelper.setFrom(MailService.FROM_ADDRESS);
+            //mimeMessageHelper.setFrom(MailService.FROM_ADDRESS);
+            mimeMessageHelper.setFrom(new InternetAddress(user, "Collabiz"));
             mimeMessageHelper.setSubject("CollaBiz 서비스 사용을 위해 코드를 복사하여 붙여넣어주세요.");
 
             Context context = new Context(); // model에 내용담아주듯이
@@ -77,7 +85,7 @@ public class MailService {
         return uuid;
     }
 
-    public void sendEmailCheckToken(HttpSession session) {
+    public void sendEmailCheckToken(HttpSession session) throws UnsupportedEncodingException {
         session.setAttribute("token", generateEmailCheckToken());
         mailSend(session);
     }
