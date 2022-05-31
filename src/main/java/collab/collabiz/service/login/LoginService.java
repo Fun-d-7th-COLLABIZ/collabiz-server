@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -64,5 +65,31 @@ public class LoginService {
                 .forEachRemaining(email -> log.info("{} 사용자 로그아웃", session.getAttribute(email)));
         session.invalidate();
         return new LogoutRes("정상 로그아웃 처리되었습니다.");
+    }
+
+    /**
+     * 로그인 체크
+     */
+    public LoginSession loginChk(HttpServletRequest request) {
+
+        String sessionId = "";
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            throw new IllegalArgumentException("로그인 정보가 없습니다.");
+        }
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("JSESSIONID")) {
+                sessionId = cookie.getValue();
+            }
+        }
+        if (sessionId.equals("")) {
+            throw new IllegalArgumentException("로그인 정보가 없습니다.");
+        }
+
+        HttpSession session = request.getSession(false);
+        LoginSession result = (LoginSession) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        log.info("id : {}, email : {} 로그인 체크", result.getId(), result.getEmail());
+        return result;
     }
 }
