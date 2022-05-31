@@ -1,7 +1,7 @@
 spring:
   mail:
     host: smtp.naver.com
-    port: 587
+    port: 465
     username: collabiz@naver.com
     password: $$collabiz
     properties:
