@@ -1,16 +1,11 @@
 package collab.collabiz.service.account;
 
 import collab.collabiz.entity.Member;
-import collab.collabiz.entity.account.dtos.AccountDto;
-import collab.collabiz.entity.account.dtos.AccountResponseDto;
-import collab.collabiz.entity.account.dtos.MailDto;
+import collab.collabiz.controller.account.dtos.AccountDto;
+import collab.collabiz.controller.account.dtos.AccountResponseDto;
+import collab.collabiz.controller.account.dtos.MailDto;
 import collab.collabiz.repository.MemberRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -24,7 +19,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
-import java.util.Properties;
 import java.util.UUID;
 
 @Service
@@ -109,14 +103,12 @@ public class MailService {
         return dto;
     }
 
-
     // save account
     public Member saveNewAccount(AccountDto accountDto) {
         memberRepository.save(accountDto.toEntity());
         return accountDto.toEntity();
     }
 
-    //
     public Boolean existsEmail(MailDto mailDto){
         return memberRepository.existsByEmail(mailDto.getAddress());
     }

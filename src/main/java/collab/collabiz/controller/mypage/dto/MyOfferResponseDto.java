@@ -1,4 +1,4 @@
-package collab.collabiz.entity.mypage;
+package collab.collabiz.controller.mypage.dto;
 
 import collab.collabiz.entity.Member;
 import collab.collabiz.entity.Post;

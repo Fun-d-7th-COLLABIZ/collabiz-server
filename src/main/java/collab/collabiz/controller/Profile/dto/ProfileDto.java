@@ -1,4 +1,4 @@
-package collab.collabiz.entity.account.dtos;
+package collab.collabiz.controller.Profile.dto;
 
 import collab.collabiz.entity.Member;
 import collab.collabiz.entity.Post;
