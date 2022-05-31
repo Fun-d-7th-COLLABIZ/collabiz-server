@@ -1,6 +1,7 @@
-package collab.collabiz.entity.account.dtos;
+package collab.collabiz.controller.Profile.dto;
 
 import collab.collabiz.entity.Member;
+import collab.collabiz.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ public class ProfileDto {
     private String email;
 
     private String companyUrl; //회사 홈페이지 주소
+
+    private String companyIntroductionSummary; //회사 소개 요약
 
     private String companyIntroduction ; //회사 소개글
 
