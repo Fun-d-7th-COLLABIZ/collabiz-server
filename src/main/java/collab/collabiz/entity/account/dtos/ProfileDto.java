@@ -1,6 +1,7 @@
 package collab.collabiz.entity.account.dtos;
 
 import collab.collabiz.entity.Member;
+import collab.collabiz.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

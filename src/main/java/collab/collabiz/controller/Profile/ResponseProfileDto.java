@@ -1,18 +1,11 @@
 package collab.collabiz.controller.Profile;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import collab.collabiz.entity.Member;
+import lombok.*;
 
-import javax.persistence.Lob;
-
-@Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class ResponseProfileDto {
 
     //@Lob //binary
@@ -43,4 +36,20 @@ public class ResponseProfileDto {
     private String uploadFileName2;
     private String uploadFileName3;
 
+    public ResponseProfileDto(Member member) {
+        this.companyName = companyName;
+        this.faxNumber = faxNumber;
+        this.companyUrl = companyUrl;
+        this.businessRegistrationNumber = businessRegistrationNumber;
+        this.companyIntroductionSummary = companyIntroductionSummary;
+        this.companyIntroduction = companyIntroduction;
+        this.email = email;
+        this.level = level;
+        this.companyContactNumber = companyContactNumber;
+        this.region = region;
+        this.regionDetail = regionDetail;
+        this.uploadFileName1 = uploadFileName1;
+        this.uploadFileName2 = uploadFileName2;
+        this.uploadFileName3 = uploadFileName3;
+    }
 }
