@@ -1,4 +1,4 @@
-package collab.collabiz.entity.profile;
+package collab.collabiz.controller.Profile.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
