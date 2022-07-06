@@ -22,7 +22,6 @@
 |👋안성철|[Github](https://github.com/SeongcheolAhn)|
 |👋정다해|[Github](https://github.com/jungdahae1225)|
 
-- [담당파트 상세](https://docs.google.com/spreadsheets/d/14HGzAlx8PqAu2hjN_mvlCZ1KJOO5ptFcykILEHUvQMo/edit?usp=sharing)  
 - [프론트 깃허브](https://github.com/Fun-d-7th-COLLABIZ/collabiz-client-web)
  
 ## 주요 페이지
